@@ -48,7 +48,7 @@ func (g *Game) StartWithCustomChar(char rune) error {
 }
 
 func (g *Game) AddPlayer(name string) (int, error) {
-	if g.state == Stopped {
+	if g.state == OnGoing {
 		return 0, errors.New("You cant add a player to a ongoing game!")
 	}
 	playerId := len(g.players)
@@ -64,7 +64,7 @@ func (g *Game) RemovePlayer(playerId int) error {
 	return nil
 }
 
-func (g *Game) Answer(playerId int, answer Answer) {
+func (g *Game) AnswerForPlayer(playerId int, answer Answer) {
 	g.players[playerId].setAnswer(answer)
 }
 
@@ -98,6 +98,9 @@ func (g *Game) calculateScores() {
 		// check for each of their answers
 		for i, ans := range player.answers {
 			// zero score if it doesnt start with the correct letter
+			if ans == "" {
+				continue
+			}
 			if []rune(ans)[0] != g.currentLetter {
 				continue
 			}
@@ -109,7 +112,7 @@ func (g *Game) calculateScores() {
 				// check for duplication
 				if ans == player2.answers[i] {
 					player.Score += 5
-					continue
+					break
 				}
 			}
 			// everything okay? then give them full score

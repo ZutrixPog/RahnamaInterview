@@ -16,7 +16,7 @@ func NewPlayer(name string) *Player {
 
 func (p *Player) setAnswer(answer Answer) error {
 	// do your checks and return error here (NO checks right now)
-	for _, field := range []interface{}{answer.name, answer.city, answer.color, answer.food} {
+	for _, field := range []interface{}{answer.Name, answer.City, answer.Color, answer.Food} {
 		p.answers = append(p.answers, field.(string))
 	}
 	return nil
@@ -28,8 +28,8 @@ func (p *Player) ClearAnswer() {
 }
 
 type Answer struct {
-	name  string
-	city  string
-	color string
-	food  string
+	Name  string
+	City  string
+	Color string
+	Food  string
 }
